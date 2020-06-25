@@ -67,7 +67,7 @@ Endpoints
 ### GET '/categories'
 - Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
 - Request Arguments: None
-- Returns: An object with a double key, a success flag, and categories object that contains an integer category id, and a single value, a category type.
+- Returns: An object with a two keys, a success flag, and categories object that contains an integer category id, and a single value, a category type.
 - Example:
 {
     {
@@ -83,9 +83,9 @@ Endpoints
  
 
 ### GET '/questions'
-- Fetches a dictionary of questions which includes a slice of questions which are shown in one page, the total number of questions, the current category and a full of the full categories.
+- Fetches a dictionary of questions which includes a slice of questions which are shown in one page, the total number of questions, the current category and all the categories.
 - Request Arguments: int page (optional, 10 questions per page).
-- Returns: An object with six keys, a success flag, a question id, a question text, an answer text, a category id and a difficulty score.
+- Returns: An object with five keys, a success flag, questions, the total number of questions,the current category and all the categories.
 {
     'success' : a success flag,
     'questions' : upto ten questions in one page,
@@ -98,34 +98,23 @@ Endpoints
 ### POST '/questions'
 - Post a dictionary of a question to create a new question entry.
 - Request Arguments: An object with four keys, a question text, an answer text, a category id and a difficulty score.
-{
-    "question": question,
-    "answer": answer,
-    "category": category id (int),
-    "difficulty": difficulty score,
-}
-- Returns: An object with six keys, which corresponds to the newly created question.
+- Returns: An object with six keys, which corresponds to the newly created question with a success flag and id.
 {
     'success' : True,
-    'id' : 4,
+    'id' : int,
     'question' : a question,
     'answer' : the corresponding answer to the question,
-    'category' : category id (integer),
+    'category' : category id (int),
     'difficulty' : difficulty score
-
 }
 
 ### DELETE '/questions/<int:question_id>'
 - Delete a question specified given id.
 - Request Arguments: None
-- Returns: An object with six keys, which corresponds to the deleted question.
+- Returns: An object with two keys, which are a success flag and the deleted question id.
 {
     'success' : True,
-    'id' : 4,
-    'question' : a question,
-    'answer' : the corresponding answer to the question,
-    'category' : category id (integer),
-    'difficulty' : difficulty score
+    'delete_id' : int,
 }
 
 
@@ -135,7 +124,7 @@ Endpoints
 {
     'search_term': search term string
 }
-- Returns: An object with three keys, questions, total_questions, current_categories.
+- Returns: An object with four keys, questions, total, currentcategory.
 {
      "success" : True,
      "questions": questions that match the search term,
@@ -146,7 +135,7 @@ Endpoints
 ### GET '/categories/<int:category>/questions'
 - Fetches questions which have the given category id.
 - Request Arguments: None
-- Returns: An object with three keys, questions, total_questions, current_categories.
+- Returns: An object with four keys, which are a success flag, questions, total, category_id.
 {
      "success" : True,
      "questions": questions that have the given category id,
@@ -154,17 +143,17 @@ Endpoints
      "category_id": the current category id
 }
 
-### POST '/quizzed'
+### POST '/quizzes'
 - Fetches questions to play the quiz, which are fetched one by one from the questions specified by the given category id.
 - Request Arguments: 
 {
      "previous_questions": questions which are previously shown,
-     "quiz_category": category id which specifies the whole quiz set
+     "quiz_category": category object (type and id) which specifies the whole quiz set
 }
 - Returns: An object with two keys, success, question.
 {
      "success": success flag,
-     "question": a question sampled from the whole quiz sets
+     "question": a random question
 }
 
 
