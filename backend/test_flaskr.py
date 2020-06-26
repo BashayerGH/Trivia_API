@@ -61,7 +61,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['message'], 'resource not found')
 
     def test_delete_question(self):
-        res = self.client().delete('/questions/6')
+        res = self.client().delete('/questions/4')
         data = json.loads(res.data)
         self.assertEqual(data['success'], True)
         self.assertTrue(data['delete_id'])
@@ -99,7 +99,7 @@ class TriviaTestCase(unittest.TestCase):
 
     def test_search_questions(self):
         data_json = {
-            'searchTerm': 'Who is the developer?'
+            'searchTerm': 'First human heart transplant operation conducted by Dr. Christiaan Barnard on Louis Washkansky, was conducted in (Date)'
         }
         res = self.client().post('/questions/search', json=data_json)
         data = json.loads(res.data)
