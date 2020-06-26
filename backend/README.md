@@ -231,8 +231,8 @@ Endpoints
 - Returns: An object with two keys, which are a success flag and the deleted question id.
 - Example:
 {
-    'success' : true,
-    'delete_id' : 4
+    "success" : true,
+    "delete_id" : 4
 }
 
 
@@ -245,7 +245,7 @@ Endpoints
 - Returns: An object with four keys, a success flag, questions, total, currentcategory.
 - Example:
 {
-    "currentcategory": 1
+    "currentcategory": 1,
     "questions": [
         {
         answer: "Bashayer",
@@ -254,8 +254,8 @@ Endpoints
         id: 26,
         question: "Who is the developer?"
         }
-    ]
-    "success": true
+    ],
+    "success": true,
     "total": 1
 }
 
@@ -317,7 +317,7 @@ Endpoints
         "difficulty": 4,
         "id": 22,
         "question": "Hematology is a branch of medicine involving the study of what?"
-    }
+    },
     "success": true
 }
 
