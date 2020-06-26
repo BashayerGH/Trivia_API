@@ -232,7 +232,7 @@ Endpoints
 - Example:
 {
     'success' : true,
-    'delete_id' : 4,
+    'delete_id' : 4
 }
 
 

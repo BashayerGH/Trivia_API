@@ -45,6 +45,7 @@ def create_app(test_config=None):
 
   @app.route('/questions')
   def Get_questions():
+    try:
         questions = Question.query.order_by(Question.id).all()
         total_questions = len(questions)
         categories = [category.format() for category in Category.query.all()]
@@ -57,19 +58,21 @@ def create_app(test_config=None):
 
         questions  = [question.format() for question in questions]
         questions  = questions [start:end]
+        current_category = questions[0]['category']
 
+        return jsonify({
+            'questions': questions,
+            'total': total_questions,
+            'categories': categories,
+            'currentcategory': current_category,
+            'success': True,
+        })
 
-        if total_questions == 0:
+    except Exception:
+      if len(questions) == 0:
             abort(404)
-        else:
-            current_category = questions[0]['category']
-            return jsonify({
-                'questions': questions,
-                'total': total_questions,
-                'categories': categories,
-                'currentcategory': current_category,
-                'success': True,
-            })
+      else:
+        abort(422)
 
 
   # Create an endpoint to DELETE question using a question ID
@@ -103,6 +106,9 @@ def create_app(test_config=None):
             question = data['question']
             answer = data['answer']
 
+            if (question == '' or answer == ''):
+              abort(422)
+
             Question(question=question, answer=answer,difficulty=difficulty,category=category).insert()
             return jsonify({
               'question': question,
@@ -124,22 +130,24 @@ def create_app(test_config=None):
   def Search():
         data = request.json
         key = data['searchTerm']
-        print(key)
-        data = Question.query.filter(Question.question.ilike('%{}%'.format(key))).all()
+        if (key == ''):
+          abort(404)
+        else:
+          data = Question.query.filter(Question.question.ilike('%{}%'.format(key))).all()
 
 
-        try:
-          questions = [i.format() for i in data]
-          total = len(questions)
-          category = questions[0]['category']
-          return jsonify({
-              'questions': questions,
-              'total': total,
-              'currentcategory': category,
-              'success': True
-              })
-        except Exception:
-          abort(422)
+          try:
+            questions = [i.format() for i in data]
+            total = len(questions)
+            category = questions[0]['category']
+            return jsonify({
+                'questions': questions,
+                'total': total,
+                'currentcategory': category,
+                'success': True
+                })
+          except Exception:
+            abort(422)
 
 
   # Create a GET endpoint to get questions based on category
